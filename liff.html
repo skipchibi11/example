@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LIFF Sample</title>
-  <script src="https://static.line-scdn.net/liff/2.0/sdk.js"></script>
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -40,15 +40,13 @@
     <p><strong>LINE ID:</strong> <span id="lineId"></span></p>
     <p><strong>表示名:</strong> <span id="displayName"></span></p>
     <img id="userImage" src="" alt="プロフィール画像" width="100" height="100">
+    <p><strong>広告コード:</strong> <span id="adCode"></span></p>
   </div>
 
   <script>
-    // LIFF IDを設定（ここに実際のLIFF IDを入れてください）
-    const liffId = '2006545453-Myq9wkJJ';
-
     // LIFFの初期化とログイン状態の確認
     function initializeLiff() {
-      liff.init({ liffId: liffId })
+      liff.init({ liffId: '2006545453-Myq9wkJJ' })
         .then(() => {
           if (liff.isLoggedIn()) {
             getProfile();
@@ -81,7 +79,7 @@
           const urlParams = new URLSearchParams(window.location.search);
           // クエリパラメータから特定の値を取得
           const code = urlParams.get('code'); // 'someParam'というクエリパラメータを取得
-          console.log(code);
+          document.getElementById("adCode").textContent = code;
         })
         .catch((error) => {
           console.error('Profile retrieval failed', error);
