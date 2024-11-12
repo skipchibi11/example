@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIFF Sample</title>
+  <script src="https://static.line-scdn.net/liff/2.0/sdk.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #profile {
+      margin-top: 20px;
+    }
+    #loginButton {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #00b900;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #loginButton:hover {
+      background-color: #009c00;
+    }
+  </style>
+</head>
+<body>
+  <h1>LIFF Sample Page</h1>
+  
+  <div id="loginStatus">
+    <button id="loginButton" onclick="login()">LINEログイン</button>
+  </div>
+
+  <div id="profile" style="display:none;">
+    <h2>プロフィール情報</h2>
+    <p><strong>LINE ID:</strong> <span id="lineId"></span></p>
+    <p><strong>表示名:</strong> <span id="displayName"></span></p>
+    <img id="userImage" src="" alt="プロフィール画像" width="100" height="100">
+  </div>
+
+  <script>
+    // LIFF IDを設定（ここに実際のLIFF IDを入れてください）
+    const liffId = '2006545453-Myq9wkJJ';
+
+    // LIFFの初期化とログイン状態の確認
+    function initializeLiff() {
+      liff.init({ liffId: liffId })
+        .then(() => {
+          if (liff.isLoggedIn()) {
+            getProfile();
+          } else {
+            document.getElementById("loginStatus").style.display = "block";
+          }
+        })
+        .catch((error) => {
+          console.error('LIFF initialization failed', error);
+        });
+    }
+
+    // LINEログイン処理
+    function login() {
+      liff.login();
+    }
+
+    // ユーザーのプロフィール情報を取得
+    function getProfile() {
+      liff.getProfile()
+        .then(profile => {
+          document.getElementById("loginStatus").style.display = "none";
+          document.getElementById("profile").style.display = "block";
+
+          document.getElementById("lineId").textContent = profile.userId;
+          document.getElementById("displayName").textContent = profile.displayName;
+          document.getElementById("userImage").src = profile.pictureUrl;
+
+          // URLからクエリパラメータを取得
+          const urlParams = new URLSearchParams(window.location.search);
+          // クエリパラメータから特定の値を取得
+          const code = urlParams.get('code'); // 'someParam'というクエリパラメータを取得
+          console.log(code);
+        })
+        .catch((error) => {
+          console.error('Profile retrieval failed', error);
+        });
+    }
+
+
+    // LIFFの初期化を実行
+    window.onload = function() {
+      initializeLiff();
+    }
+  </script>
+</body>
+</html>
+
+  
+
+
+
+
+
+
+
+
+
